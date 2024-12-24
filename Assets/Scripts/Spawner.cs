@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
     public SpawnData[] spawnData;
+    public float levelTime;
 
     int level;  //소환 레벨
     float timer;
@@ -13,13 +14,17 @@ public class Spawner : MonoBehaviour
     void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();
+        levelTime = GameManager.instance.maxGameTime / spawnData.Length;    //최대 시간에 몬스터 데이터 크기로 나눠 자동으로 구간 시간 계산
     }
 
     void Update()
     {
+        if (!GameManager.instance.isLive)
+            return;
+
         timer += Time.deltaTime;
         //FloorToInt : 소수점 아래는 버리고 Int형으로 바꾸는 함수. CeilToInt : 소수점 아래를 올리고 Int형으로 바꾸는 함수.
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1); //오류 수정
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / levelTime), spawnData.Length - 1);
 
         if (timer > spawnData[level].spawnTime)
         {

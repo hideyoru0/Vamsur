@@ -12,6 +12,7 @@ public class ItemData : ScriptableObject
     public ItemType itemType;
     public int itemId;
     public string itemName;
+    [TextArea]  //Inspector창에서 텍스트를 여러 줄 넣을 수 있음
     public string itemDesc;
     public Sprite itemIcon;
 
